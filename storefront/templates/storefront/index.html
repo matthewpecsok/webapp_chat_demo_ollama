@@ -1,0 +1,86 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Threadline Product Advisor</title>
+    <link rel="stylesheet" href="{% static 'storefront/styles.css' %}">
+    <script src="{% static 'storefront/app.js' %}" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">Threadline</a>
+      <span class="local-badge">Ollama local</span>
+    </header>
+
+    <main class="shop-layout">
+      <section class="catalog" aria-labelledby="catalog-title">
+        <div class="catalog-head">
+          <p class="eyebrow">New arrivals</p>
+          <h1 id="catalog-title">Clothing edit</h1>
+        </div>
+
+        <div class="product-grid">
+          {% for product in products %}
+            <article class="product-card" data-product-id="{{ product.id }}">
+              <img
+                class="product-image"
+                src="{% static product.image %}"
+                alt="{{ product.title }}"
+                width="720"
+                height="720"
+                loading="lazy"
+              >
+              <div class="product-body">
+                <span class="category">{{ product.category }}</span>
+                <h2>{{ product.title }}</h2>
+                <p>{{ product.description }}</p>
+                <div class="product-actions">
+                  <strong>{{ product.price }}</strong>
+                  <button
+                    class="ask-button"
+                    type="button"
+                    data-title="{{ product.title }}"
+                  >
+                    Ask
+                  </button>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </section>
+
+      <aside class="chat-panel" aria-labelledby="chat-title">
+        <header class="chat-header">
+          <div>
+            <p class="eyebrow">Fit advisor</p>
+            <h2 id="chat-title">Chat</h2>
+          </div>
+          <button class="clear-button" id="clearChat" type="button">Clear</button>
+        </header>
+
+        <div class="chat-log" id="chatLog" aria-live="polite">
+          <div class="message assistant">
+            Tell me where you are wearing it, your budget, and the fit you like.
+          </div>
+        </div>
+
+        <form class="chat-form" id="chatForm">
+          <label class="sr-only" for="chatInput">Message</label>
+          <textarea
+            id="chatInput"
+            name="message"
+            rows="3"
+            placeholder="Weekend trip, relaxed fit, under $120"
+            required
+          ></textarea>
+          <button class="send-button" type="submit">Send</button>
+        </form>
+
+        <p class="chat-error" id="chatError" role="alert" hidden></p>
+      </aside>
+    </main>
+  </body>
+</html>
